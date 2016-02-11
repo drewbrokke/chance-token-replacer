@@ -1,0 +1,29 @@
+{
+  "name": "chance-token-replacer",
+  "version": "1.0.0",
+  "description": "A simple utility to replace tokens in a string with generations from the chance random generator helper",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/drewbrokke/chance-token-replacer.git"
+  },
+  "keywords": [
+    "chance",
+    "token",
+    "replace",
+    "string"
+  ],
+  "author": "Drew Brokke <drew.brokke@liferay.com> (https://github.com/drewbrokke)",
+  "license": "GNU",
+  "bugs": {
+    "url": "https://github.com/drewbrokke/chance-token-replacer/issues"
+  },
+  "homepage": "https://github.com/drewbrokke/chance-token-replacer#readme",
+  "dependencies": {
+    "chance": "^0.8.0",
+    "lodash": "^4.3.0"
+  }
+}
