@@ -31,6 +31,8 @@ TokenReplacer.prototype = {
 			configurationArray = _.map(configurationArray, this.splitByColon);
 
 			configurationObject = _.fromPairs(configurationArray);
+
+			this.setBooleans(configurationObject);
 		}
 
 		return configurationObject;
@@ -78,6 +80,17 @@ TokenReplacer.prototype = {
 
 	resetEvaluatedTokens: function() {
 		this.evaluatedTokens = [];
+	},
+
+	setBooleans: function(configurationObject) {
+		_.forEach(configurationObject, function(value, key) {
+			if (value === 'false') {
+				configurationObject[key] = false;
+			}
+			else if (value === 'true') {
+				configurationObject[key] = true;
+			}
+		});
 	},
 
 	splitByComma: function(s) {
