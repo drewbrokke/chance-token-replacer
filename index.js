@@ -16,7 +16,7 @@ TokenReplacer.prototype = {
 	callMethod: function(methodName, configurationObject) {
 		return chance[methodName](configurationObject);
 	},
-	
+
 	isChanceMethod: function (methodName) {
 		return !!chance[methodName];
 	},
@@ -74,7 +74,6 @@ TokenReplacer.prototype = {
 		var methodName = this.getMethodName(comapctToken);
 		var configurationObject = this.getConfigurationObject(comapctToken);
 
-		
 		if (this.isChanceMethod(methodName)) {
 			evaluatedToken = this.callMethod(methodName, configurationObject);
 
