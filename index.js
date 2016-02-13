@@ -43,7 +43,7 @@ TokenReplacer.prototype = {
 	},
 
 	getMethodName: function(token) {
-		return this.getArray(token)[0];
+		return this.trimOuterWhitespace(this.getArray(token)[0]);
 	},
 
 	processString: function(s) {
