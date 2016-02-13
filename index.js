@@ -43,7 +43,7 @@ TokenReplacer.prototype = {
 	},
 
 	getMethodName: function(token) {
-		return this.trimOuterWhitespace(this.getArray(token)[0]);
+		return this.getArray(token)[0];
 	},
 
 	processString: function(s) {
@@ -64,6 +64,8 @@ TokenReplacer.prototype = {
 	},
 
 	replaceToken: function(token) {
+		token = this.stripWhitespace(token);
+
 		var methodName = this.getMethodName(token);
 		var configurationObject = this.getConfigurationObject(token);
 
@@ -115,12 +117,12 @@ TokenReplacer.prototype = {
 		return s;
 	},
 
-	trimLeftBang: function(s) {
-		return _.trimStart(s, '!');
+	stripWhitespace: function(s) {
+		return s.replace(/ /g, '');
 	},
 
-	trimOuterWhitespace: function(s) {
-		return _.trim(s, ' ');
+	trimLeftBang: function(s) {
+		return _.trimStart(s, '!');
 	},
 
 	PATTERN_BACKREFERENCE: /!\d/gi,
