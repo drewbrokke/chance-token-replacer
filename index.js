@@ -16,6 +16,10 @@ TokenReplacer.prototype = {
 	callMethod: function(methodName, configurationObject) {
 		return chance[methodName](configurationObject);
 	},
+	
+	isChanceMethod: function (methodName) {
+		return !!chance[methodName];
+	},
 
 	getArray: function(token) {
 		return this.stripAmpersands(token).split('#');
@@ -64,14 +68,18 @@ TokenReplacer.prototype = {
 	},
 
 	replaceToken: function(token) {
-		token = this.stripWhitespace(token);
+		var evaluatedToken = token;
+		var comapctToken = this.stripWhitespace(token);
 
-		var methodName = this.getMethodName(token);
-		var configurationObject = this.getConfigurationObject(token);
+		var methodName = this.getMethodName(comapctToken);
+		var configurationObject = this.getConfigurationObject(comapctToken);
 
-		var evaluatedToken = this.callMethod(methodName, configurationObject);
+		
+		if (this.isChanceMethod(methodName)) {
+			evaluatedToken = this.callMethod(methodName, configurationObject);
 
-		this.cacheEvaluatedToken(evaluatedToken);
+			this.cacheEvaluatedToken(evaluatedToken);
+		}
 
 		return evaluatedToken;
 	},
