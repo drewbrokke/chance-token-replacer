@@ -1,9 +1,95 @@
+var assert = require('assert');
+
 var TokenReplacer = require('../index.js');
 
-var replacer = new TokenReplacer();
+describe('TokenReplacer', function() {
+	describe('#processString()', function() {
+		it('should return a string', function() {
+			var replacer = new TokenReplacer();
 
-var tokenString = 'Hello, my name is <@ first # { gender : male } @> <@ last @>.  You can email me at !1.!2@somedomain.com, or call me at <@phone@>. This is my catchphrase: <@sentence#{words:5}@>';
+			var token = '<@first@>';
 
-var processedString = replacer.processString(tokenString);
+			assert.equal(typeof replacer.processString(token), 'string');
+		});
 
-console.log(processedString);
+		it('should strip whitespace before processing tokens chance method name', function() {
+			var replacer = new TokenReplacer();
+
+			var token = '<@ first @>';
+
+			assert.notEqual(token, replacer.processString(token));
+		});
+
+		it('should process tokens that have a chance method name', function() {
+			var replacer = new TokenReplacer();
+
+			var token = '<@first@>';
+
+			assert.notEqual(token, replacer.processString(token));
+		});
+
+
+		it('should return tokens that have an invalid chance method name', function() {
+			var replacer = new TokenReplacer();
+
+			var token = '<@asdfasdf@>';
+
+			assert.equal(token, replacer.processString(token));
+		});
+
+		it('should cache tokens that have a valid chance method name', function() {
+			var replacer = new TokenReplacer();
+
+			var token = '<@first@>';
+
+			replacer.processString(token);
+
+			assert.equal(replacer.evaluatedTokens.length, 1);
+		});
+
+		it('should not cache tokens that have an invalid chance method name', function() {
+			var replacer = new TokenReplacer();
+
+			var token = '<@asdfasdf@>';
+
+			replacer.processString(token);
+
+			assert.equal(replacer.evaluatedTokens.length, 0);
+		});
+
+		it('should backreference previous replacements', function() {
+			var replacer = new TokenReplacer();
+
+			assert.equal(replacer.processString('<@first@>'), replacer.processString('!1'));
+		});
+
+		it('should accept configuration objects for the method calls', function() {
+			var replacer = new TokenReplacer();
+
+			var token = '<@sentence#{words:5}@>';
+
+			var processedToken = replacer.processString(token);
+
+			var numberOfWords = processedToken.split(' ').length;
+
+			assert.equal(numberOfWords, 5);
+			assert.notEqual(numberOfWords, 4);
+		});
+	});
+
+	describe('#resetEvaluatedTokens()', function() {
+		it('should reset the evaluated token count', function() {
+			var replacer = new TokenReplacer();
+
+			var token = '<@first@>';
+
+			replacer.processString(token);
+
+			assert.equal(replacer.evaluatedTokens.length, 1);
+
+			replacer.resetEvaluatedTokens();
+
+			assert.equal(replacer.evaluatedTokens.length, 0);
+		});
+	});
+});
