@@ -4,7 +4,7 @@
   "description": "A simple utility to replace tokens in a string with generations from the chance random generator helper",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node test/test.js"
   },
   "repository": {
     "type": "git",
