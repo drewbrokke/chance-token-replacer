@@ -4,25 +4,25 @@ var TokenReplacer = require('../index.js');
 
 describe('TokenReplacer', function() {
 	describe('#processString()', function() {
-		it('should return a string', function() {
-			var replacer = new TokenReplacer();
+		var replacer = null;
 
+		beforeEach(function() {
+			replacer = new TokenReplacer();
+		});
+
+		it('should return a string', function() {
 			var token = '<@first@>';
 
 			assert.equal(typeof replacer.processString(token), 'string');
 		});
 
 		it('should strip whitespace before processing tokens chance method name', function() {
-			var replacer = new TokenReplacer();
-
 			var token = '<@ first @>';
 
 			assert.notEqual(token, replacer.processString(token));
 		});
 
 		it('should process tokens that have a chance method name', function() {
-			var replacer = new TokenReplacer();
-
 			var token = '<@first@>';
 
 			assert.notEqual(token, replacer.processString(token));
@@ -30,16 +30,12 @@ describe('TokenReplacer', function() {
 
 
 		it('should return tokens that have an invalid chance method name', function() {
-			var replacer = new TokenReplacer();
-
 			var token = '<@asdfasdf@>';
 
 			assert.equal(token, replacer.processString(token));
 		});
 
 		it('should cache tokens that have a valid chance method name', function() {
-			var replacer = new TokenReplacer();
-
 			var token = '<@first@>';
 
 			replacer.processString(token);
@@ -48,8 +44,6 @@ describe('TokenReplacer', function() {
 		});
 
 		it('should not cache tokens that have an invalid chance method name', function() {
-			var replacer = new TokenReplacer();
-
 			var token = '<@asdfasdf@>';
 
 			replacer.processString(token);
@@ -58,14 +52,10 @@ describe('TokenReplacer', function() {
 		});
 
 		it('should backreference previous replacements', function() {
-			var replacer = new TokenReplacer();
-
 			assert.equal(replacer.processString('<@first@>'), replacer.processString('!1'));
 		});
 
 		it('should accept configuration objects for the method calls', function() {
-			var replacer = new TokenReplacer();
-
 			var token = '<@sentence#{words:5}@>';
 
 			var processedToken = replacer.processString(token);
