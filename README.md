@@ -35,6 +35,38 @@ var replacer = new TokenReplacer({
 replacer.processString('My first name is [%first%].');
 ```
 
+### Custom replacer functions
+The replacer will also accept a custom replacer function to process tokens **in addition to** the chance api methods.  It does not accept anything after the `#` inside of a token.
+
+**Example**
+```
+var dummyConfigObject = {
+	customValue: 'ABC_123'
+};
+
+function customReplacerFn(s) {
+	var customEvaluation = s;
+
+	if (_.startsWith(s, 'dummyConfigObject')) {
+		var key = s.split('.')[1];
+
+		if (!!dummyConfigObject[key]) {
+			customEvaluation = dummyConfigObject[key];
+		}
+	}
+
+	return customEvaluation;
+}
+
+var options = {
+	customReplacerFn: customReplacerFn
+};
+
+var replacer = new TokenReplacer(options);
+
+replacer.processString('<@dummyConfigObject.customValue@>'); // 'ABC_123'
+```
+
 ### Passing configuration to token methods
 You can also pass a configuration object to the method by including a `#` followed by a configuration object:
 ```
