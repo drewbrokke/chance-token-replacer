@@ -1,6 +1,6 @@
 {
   "name": "chance-token-replacer",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "A simple utility to replace tokens in a string with generations from the chance random generator helper",
   "main": "index.js",
   "scripts": {
