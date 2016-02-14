@@ -1,4 +1,5 @@
 var assert = require('assert');
+var _ = require('lodash');
 
 var TokenReplacer = require('../index.js');
 
@@ -18,6 +19,34 @@ describe('TokenReplacer', function() {
 			var tokenString = '[%first%]';
 
 			assert.notEqual(tokenString, replacer.processString(tokenString));
+		});
+
+		it('should accept a custom evaluation function', function() {
+			var dummyConfigObject = {
+				customValue: 'ABC_123'
+			};
+
+			function customReplacerFn(s) {
+				var customEvaluation = s;
+
+				if (_.startsWith(s, 'dummyConfigObject')) {
+					var key = s.split('.')[1];
+
+					if (!!dummyConfigObject[key]) {
+						customEvaluation = dummyConfigObject[key];
+					}
+				}
+
+				return customEvaluation;
+			}
+
+			var options = {
+				customReplacerFn: customReplacerFn
+			};
+
+			var replacer = new TokenReplacer(options);
+
+			assert.equal(replacer.processString('<@dummyConfigObject.customValue@>'), dummyConfigObject.customValue);
 		});
 	});
 
