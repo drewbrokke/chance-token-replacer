@@ -1,9 +1,20 @@
 var Chance = require('chance');
-
-var chance = new Chance();
+var RegexEscape = require("regex-escape");
 var _ = require('lodash');
 
-function TokenReplacer() {
+var chance = new Chance();
+
+function TokenReplacer(options) {
+	var tokenRegexString = '';
+
+	options = options || {};
+
+	this.startToken = options.startToken || '<@';
+	this.endToken = options.endToken || '@>';
+
+	tokenRegexString = RegexEscape(this.startToken) + '.+?' + RegexEscape(this.endToken);
+
+	this.PATTERN_TOKEN = new RegExp(tokenRegexString, 'g');
 	this.evaluatedTokens = [];
 }
 
@@ -111,8 +122,8 @@ TokenReplacer.prototype = {
 	},
 
 	stripAmpersands: function(token) {
-		token = _.trimStart(token, '<@');
-		token = _.trimEnd(token, '@>');
+		token = _.trimStart(token, this.startToken);
+		token = _.trimEnd(token, this.endToken);
 
 		return token;
 	},
@@ -132,8 +143,7 @@ TokenReplacer.prototype = {
 		return _.trimStart(s, '!');
 	},
 
-	PATTERN_BACKREFERENCE: /!\d/gi,
-	PATTERN_TOKEN: /<@.+?@>/gi
+	PATTERN_BACKREFERENCE: /!\d/gi
 
 };
 
