@@ -24,6 +24,7 @@
   "homepage": "https://github.com/drewbrokke/chance-token-replacer#readme",
   "dependencies": {
     "chance": "^0.8.0",
-    "lodash": "^4.3.0"
+    "lodash": "^4.3.0",
+    "regex-escape": "^3.4.1"
   }
 }
