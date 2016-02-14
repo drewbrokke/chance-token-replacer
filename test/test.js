@@ -3,6 +3,24 @@ var assert = require('assert');
 var TokenReplacer = require('../index.js');
 
 describe('TokenReplacer', function() {
+	describe('#constructor', function() {
+		it('should accept starting and ending tokens', function() {
+			var startToken = '[%';
+			var endToken = '%]';
+
+			var options = {
+				endToken: endToken,
+				startToken: startToken
+			};
+
+			var replacer = new TokenReplacer(options);
+
+			var tokenString = '[%first%]';
+
+			assert.notEqual(tokenString, replacer.processString(tokenString));
+		});
+	});
+
 	describe('#processString()', function() {
 		var replacer = null;
 
