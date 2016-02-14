@@ -58,7 +58,7 @@ describe('TokenReplacer', function() {
 
 			replacer.processString(token);
 
-			assert.equal(replacer.evaluatedTokens.length, 1);
+			assert.equal(replacer.util.evaluatedTokens.length, 1);
 		});
 
 		it('should not cache tokens that have an invalid chance method name', function() {
@@ -66,7 +66,7 @@ describe('TokenReplacer', function() {
 
 			replacer.processString(token);
 
-			assert.equal(replacer.evaluatedTokens.length, 0);
+			assert.equal(replacer.util.evaluatedTokens.length, 0);
 		});
 
 		it('should backreference previous replacements', function() {
@@ -93,11 +93,11 @@ describe('TokenReplacer', function() {
 
 			replacer.processString(token);
 
-			assert.equal(replacer.evaluatedTokens.length, 1);
+			assert.equal(replacer.util.evaluatedTokens.length, 1);
 
 			replacer.resetEvaluatedTokens();
 
-			assert.equal(replacer.evaluatedTokens.length, 0);
+			assert.equal(replacer.util.evaluatedTokens.length, 0);
 		});
 	});
 });
