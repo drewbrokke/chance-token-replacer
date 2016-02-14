@@ -21,10 +21,22 @@ console.log(processedString); // Hello, my name is Landon McKinney.  You can ema
 ```
 
 ### Basic Use
-The replacer uses the [Chance random generator helper](http://chancejs.com/) to replace tokens in a string with generated data.  The replacer looks for the token format `<@chanceMethodName@>` and replaces it with the result of the corresponding Chance method call.  
+The replacer uses the [Chance random generator helper](http://chancejs.com/) to replace tokens in a string with generated data.  The replacer looks for the token format `<@chanceMethodName@>` and replaces it with the result of the corresponding Chance method call.
 
-### Passing configuration
-You can also pass a configuration object to the method by including a `#` followed by a configuration object: 
+### Custom starting and ending tokens
+You can use custom starting and ending tokens instead of the default `<@` and `@>` by passing an options object to the constructor:
+
+```
+var replacer = new TokenReplacer({
+	endToken: '%]',
+	startToken: '[%'
+});
+
+replacer.processString('My first name is [%first%].');
+```
+
+### Passing configuration to token methods
+You can also pass a configuration object to the method by including a `#` followed by a configuration object:
 ```
 '<@chanceMethodName#{key:value, key2:value2}@>'
 
@@ -40,7 +52,7 @@ The replacer caches every evaluated token to an array using a 1-based index.  Yo
 ```
 'My name is <@first@> <@last@>, but you can just call me !1.  Mr. !2 is my father.';
 
-// Evaluates to: 
+// Evaluates to:
 'My name is Lawrence Armstrong, but you can just call me Lawrence.  Mr. Armstrong is my father.';
 ```
 
