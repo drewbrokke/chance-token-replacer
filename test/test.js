@@ -103,7 +103,7 @@ describe('TokenReplacer', function() {
 		});
 
 		it('should accept configuration objects for the method calls', function() {
-			var token = '<@sentence#{words:5}@>';
+			var token = '<@sentence#{"words":5}@>';
 
 			var processedToken = replacer.processString(token);
 
@@ -111,6 +111,16 @@ describe('TokenReplacer', function() {
 
 			assert.equal(numberOfWords, 5);
 			assert.notEqual(numberOfWords, 4);
+		});
+
+		it('should accept configuration objects for the method calls - array', function() {
+			var token = '<@pickone#["A","B","C"]@>';
+
+			var processedToken = replacer.processString(token);
+
+			console.log(processedToken);
+			assert.equal(['A','B','C'].indexOf(processedToken) >= 0, true);
+
 		});
 	});
 
