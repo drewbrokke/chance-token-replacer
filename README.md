@@ -67,8 +67,8 @@ var replacer = new TokenReplacer(options);
 replacer.processString('<@dummyConfigObject.customValue@>'); // 'ABC_123'
 ```
 
-### Passing configuration to token methods
-You can also pass a configuration object to the method by including a `#` followed by a configuration object:
+### Passing JSON5 object to token methods
+You can also pass a configuration object (in [JSON5](https://json5.org/) format) to the method by including a `#` followed by a configuration object:
 ```
 '<@chanceMethodName#{key:value, key2:value2}@>'
 
@@ -77,7 +77,15 @@ You can also pass a configuration object to the method by including a `#` follow
 // Evaluates to:
 'This is my social security number: 344750126';
 
+'<@pickone#["A","B","C"]@>'
+
+'selected letter: <@pickone#["A","B","C"]@>';
+
+// Evaluates to:
+'selected letter: B';
+
 ```
+
 
 ### Backreferences
 The replacer caches every evaluated token to an array using a 1-based index.  You can reference these values with bang (`!`) and a number corresponding to the order the tokens were replaced.
