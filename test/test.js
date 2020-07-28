@@ -102,15 +102,35 @@ describe('TokenReplacer', function() {
 			assert.equal(replacer.processString('<@first@>'), replacer.processString('!1'));
 		});
 
-		it('should accept configuration objects for the method calls', function() {
-			var token = '<@sentence#{words:5}@>';
+		describe('should accept array as configuration object for the method calls', function () {
+			const tests = [
+				{args: '["A","B","C"]', in: ['A','B','C'] },
+				{args: '[1,2,3]', in: ['1','2','3'] },
+			];
 
-			var processedToken = replacer.processString(token);
+			tests.forEach(function (test) {
+				it(`when ${test.args} is used`, function () {
+					var token = `<@pickone#${test.args}@>`;
+					const processedToken = replacer.processString(token);
+					assert.equal(test.in.indexOf(processedToken) >= 0, true);
+				});
+			});
+		});
 
-			var numberOfWords = processedToken.split(' ').length;
+		describe('should accept configuration objects for the method calls', function () {
+			const tests = [
+				{args: '{words:5}', expected: 5 },
+				{args: '{"words":5}', expected: 5 },
+			];
 
-			assert.equal(numberOfWords, 5);
-			assert.notEqual(numberOfWords, 4);
+			tests.forEach(function (test) {
+				it(`when ${test.args} is used`, function () {
+					var token = `<@sentence#${test.args}@>`;
+					const processedToken = replacer.processString(token);
+					const numberOfWords = processedToken.split(' ').length;
+					assert.equal(numberOfWords, test.expected);
+				});
+			});
 		});
 	});
 
