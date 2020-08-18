@@ -150,3 +150,29 @@ describe('TokenReplacer', function() {
 		});
 	});
 });
+
+var Util = require('../lib/Util.js');
+
+describe('Util', function() {
+	describe('getConfigurationObject', function() {
+		describe('should convert a string boolean into a boolean value', function() {
+			var key = 'key'
+			var tests = [
+				{args: `<@foo#{${key}:'false'}@>`, expected: false},
+				{args: `<@foo#{${key}:false}@>`, expected: false},
+				{args: `<@foo#{${key}:'true'}@>`, expected: true},
+				{args: `<@foo#{${key}:true}@>`, expected: true},
+				{args: `<@foo#{${key}:'foo'}@>`, expected: 'foo'}
+			]
+
+			var util = new Util({});
+
+			tests.forEach(function (test) {
+				it(`when "${test.args}" is used`, function () {
+					// @ts-ignore
+					assert.strictEqual(util.getConfigurationObject(test.args)[key], test.expected);
+				});
+			});
+		})
+	})
+})
